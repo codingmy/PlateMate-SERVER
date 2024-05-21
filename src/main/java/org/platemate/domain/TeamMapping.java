@@ -27,4 +27,7 @@ public class TeamMapping {
     Long latitude;
     @Column(name = "longtitude")
     Long longtitude;
+
+    @Column(name = "is_team_mapped")
+    Boolean isTeamMapped;
 }
