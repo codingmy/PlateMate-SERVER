@@ -1,6 +1,6 @@
 package org.platemate.dto.request;
 
-public record GetAuthCodeRequest(
+public record PostUserDataRequest(
         String nickname,
         Long latitude,
         Long longtitude

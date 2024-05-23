@@ -1,6 +1,6 @@
 package org.platemate.dto.response;
 
-public record GetAuthCodeResponse(
+public record PostUserDataResponse(
         Long authCode
 ){
 }
