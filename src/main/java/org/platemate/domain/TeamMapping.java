@@ -14,20 +14,18 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Table(name = "teamMapping")
 public class TeamMapping {
-    @Column(name = "user_id")
-    Long userId;
-    @Column(name = "nickname")
-    String nickname;
+    @Column(name = "user1_id")
+    Long user1_id;
+
+    @Column(name = "user2_id")
+    Long user2_id;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_auth_id")
-    Long teamAuthId;
+    @Column(name = "mapping_code")
+    Long mapping_code;
 
-    @Column(name = "latitude")
-    Long latitude;
-    @Column(name = "longtitude")
-    Long longtitude;
+    @Column(name = "is_mapped")
+    Boolean isMapped;
 
-    @Column(name = "is_team_mapped")
-    Boolean isTeamMapped;
 }
