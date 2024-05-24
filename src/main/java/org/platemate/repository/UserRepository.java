@@ -28,6 +28,11 @@ public class UserRepository {
                 .from(user)
                 .where(user.nickname.eq(nickname), user.latitude.eq(latitude), longtitude)
                 .fetchLast();
+        return userId;
+    }
+
+    //team테이블에 팀 매핑 원하는 row로 추가
+    public Long postTeamData(Long userId){
         TeamMapping team = new TeamMapping(userId, false);
         em.persist(team);
         Long teamCode = query.select(team.teamCode)
@@ -37,7 +42,5 @@ public class UserRepository {
                 .fetchLast();
         return teamCode;
     }
-
-
 
 }
