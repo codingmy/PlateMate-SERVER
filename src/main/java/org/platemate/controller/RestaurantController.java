@@ -25,5 +25,10 @@ public class RestaurantController {
     @ResponseBody
     public String getRestListFromKakaoAPIToString(@RequestBody PostUserDataRequest request/* Long longti, Long lati*/){
         return kakaoAPIService.getRestaurantList(request.longtitude(), request.latitude());
+    }*/
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public GetKakaoAPIResponse getRestListFromKakaoAPIToString(@RequestBody PostUserDataRequest request ){
+        return kakaoAPIService.getRestaurantList(request.longtitude(), request.latitude());
     }
 }

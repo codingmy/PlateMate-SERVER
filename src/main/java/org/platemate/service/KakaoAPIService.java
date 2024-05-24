@@ -1,8 +1,13 @@
 package org.platemate.service;
 
+import org.platemate.dto.response.GetKakaoAPIResponse;
 import org.platemate.dto.response.GetRestListFromKakaoResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,11 +24,36 @@ public class KakaoAPIService {
     private String FORMAT = "JSON?";
     private String coordForm = "WGS84";
     private String categoryCode = "FD6";
+    public GetKakaoAPIResponse getRestaurantList(Float longti, Float lati) {
 
-    public /*List<GetRestListFromKakaoResponse>*/String getRestaurantList(Long longtitude, Long latitude) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "KakaoAK " + kakaoAPIKey);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.JSON?" +
+                "query=" + "맛집"//query
+                + "&category_group_code=" + "FD6"
+                + "&x=" + longti
+                + "&y=" + lati
+                + "&radius=" + "100";
+        System.out.println(apiURL);
+        System.out.println(lati);
+        final HttpEntity<String> entity = new HttpEntity<>(headers);
+
+//        System.out.println(restTemplate.exchange(apiURL, HttpMethod.GET, entity,String.class).toString());
+
+        return restTemplate.exchange(apiURL, HttpMethod.GET, entity,GetKakaoAPIResponse.class).getBody();
+
+    }
+/*
+    public String GetKakaoAPIResponse getRestaurantList(Long longtitude, Long latitude) {
         try {
             String query = URLEncoder.encode("맛집", "UTF-8");
+            final HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "KakaoAK " + kakaoAPIKey);
 
+            RestTemplate restTemplate = new RestTemplate();
             //request url 생성
             String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.JSON?"
                     + "query=" + query
@@ -31,6 +61,15 @@ public class KakaoAPIService {
                     + "&x=" + longtitude
                     + "&y=" + latitude
                     + "&output_coord=" + coordForm;
+            final HttpEntity<String> entity = new HttpEntity<>(headers);
+            return restTemplate.exchange(apiUrl, HttpMethod.GET, entity, )
+
+
+            return restTemplate.exchange(apiUrl, HttpMethod.GET, entity, GetKakaoAPIResponse.class).getBody();
+*/
+
+/*
+
             URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -58,11 +97,12 @@ public class KakaoAPIService {
             br.close();
 
             return response.toString();
-
+*/
+/*
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
-    }
+    }*/
 
 }
