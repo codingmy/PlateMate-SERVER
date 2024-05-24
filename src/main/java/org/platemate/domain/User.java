@@ -18,12 +18,12 @@ public class User {
     @Column(name = "nickname")
     String nickname;
     @Column(name = "latitude")
-    Long latitude;
+    Float latitude;
     @Column(name = "longtitude")
-    Long longtitude;
+    Float longtitude;
 
     @Builder
-    public User(String nickname, Long latitude, Long longtitude) {
+    public User(String nickname, Float latitude, Float longtitude) {
         this.nickname = nickname;
         this.latitude = latitude;
         this.longtitude = longtitude;

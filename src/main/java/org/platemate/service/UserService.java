@@ -37,7 +37,7 @@ public class UserService {
             return false;
     }
 
-    public List<Long> getTeamUserMidPlaceData(Long authCode) {
+    public List<Float> getTeamUserMidPlaceData(Long authCode) {
         //인증번호로 team에서 userId2개 가져오기
         TeamMapping teamData = userRepository.getTeamDataByTeamCode(authCode);
 
@@ -45,12 +45,12 @@ public class UserService {
         User user1Data = userRepository.getUserDataByUserId(teamData.getUser1_id());
         User user2Data = userRepository.getUserDataByUserId(teamData.getUser2_id());
 
-        Long midLatitude = (user1Data.getLatitude() + user2Data.getLatitude()) / 2;
-        Long midLongtitude = (user1Data.getLongtitude() + user2Data.getLongtitude()) / 2;
+        Float midLongtitude = (user1Data.getLongtitude() + user2Data.getLongtitude()) / 2;
+        Float midLatitude = (user1Data.getLatitude() + user2Data.getLatitude()) / 2;
 
-        List<Long> locationData = new ArrayList<Long>();
-        locationData.add(midLatitude);
+        List<Float> locationData = new ArrayList<Float>();
         locationData.add(midLongtitude);
+        locationData.add(midLatitude);
         return locationData;
     }
 }

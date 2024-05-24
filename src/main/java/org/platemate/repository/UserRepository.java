@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     //유저 데이터 row 추가 (2인 매핑시)
-    public Long postUserData(String nickname, Long latitude, Long longtitude) {
+    public Long postUserData(String nickname, Float latitude, Float longtitude) {
         User user = new User(nickname, latitude, longtitude);
         em.persist(user);
         Long userId = query.select(user.userId)
