@@ -8,6 +8,8 @@ import org.platemate.domain.TeamMapping;
 import org.platemate.domain.User;
 import org.springframework.stereotype.Repository;
 
+import static com.querydsl.jpa.JPAExpressions.selectFrom;
+
 @Slf4j
 @Repository
 @Transactional
@@ -32,15 +34,45 @@ public class UserRepository {
     }
 
     //team테이블에 팀 매핑 원하는 row로 추가
-    public Long postTeamData(Long userId){
+    public Long postTeamData(Long userId) {
         TeamMapping team = new TeamMapping(userId, false);
         em.persist(team);
-        Long teamCode = query.select(team.teamCode)
+        Long authCode = query.select(team.authCode)
                 .from(team)
                 .where(team.user1_id.eq(userId)
                         .and(team.isMapped.eq(false)))
                 .fetchLast();
-        return teamCode;
+        return authCode;
     }
 
+    //인증코드로 매핑 가능한 유효 인증코드인지 확인
+    public Boolean getAuthCodeAvailable(Long authCode) {
+        Team mappingTeam = query.selectFrom(team)
+                .where(team.teamcode.eq(authCode).and(team.isMapped.eq(false)))
+                .fetchLast();
+        return mappingTeam.isMapped;
+    }
+
+    //입력받은 유저 아이디를 db에 저장, 팀매핑 여부를 true로 수정
+    public void updateTeamMapping(Long userId) {
+        query.update(teamMapping)
+                .where(teamMapping.authCode.eq(authCode))
+                .set(teamMapping.isMapped, true)
+                .set(teamMapping.user2_id, userId)
+                .execute();
+    }
+
+    //팀인증코드로 팀 매핑 데이터 가져오기
+    public TeamMapping getTeamDataByTeamCode(Long authCode) {
+        return query.selectFrom(teamMapping)
+                .where(teamMapping.authCode.eq(authCode))
+                .fetchFirst();
+    }
+
+    //유저 id로 유저 정보 가져오기
+    public User getUserDataByUserId(Long userId) {
+        return query.selectFrom(user)
+                .where(user.userId.eq(userId))
+                .fetchFirst();
+    }
 }
