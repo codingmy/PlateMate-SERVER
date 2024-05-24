@@ -20,18 +20,18 @@ public class UserService {
     }
 
     //인증번호로 팀매핑 진행
-    public void getTeamMapping(GetTeamMappingRequest request) {
+    public Boolean getTeamMapping(GetTeamMappingRequest request) {
         //db에 유저 정보 업로드
         Long userId = userRepository.postUserData(request.nickname(), request.latitude(), request.longtitude());
         TeamMapping teamMappingData = userRepository.getTeamDataByTeamCode(request.authCode());
 
         //인증코드가 유효할 때(조회 가능, 매핑전)
-        if (teamMappingData != null && teamMappingData.getIsMapped() == false)
+        if (teamMappingData != null && teamMappingData.getIsMapped() == false) {
             //db에 유저 매핑 업데이트
             userRepository.updateTeamMapping(userId);
-
-        else
+            return true;
+        } else
             //팀매핑 정보 없을 때(인증번호가 잘못된 경우)
-            throw new NotFoundException(ErrorMessage.CODE_NOT_FOUND_EXCEPTION.getMessage());
+            return false;
     }
 }
