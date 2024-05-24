@@ -4,12 +4,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.platemate.dto.request.GetRestaurantListRequestV1;
 import org.platemate.dto.request.GetRestaurantListRequestV2;
+import org.platemate.dto.response.GetRestListFromKakaoResponse;
 import org.platemate.dto.response.GetRestaurantListResponse;
+import org.platemate.service.KakaoAPIService;
 import org.platemate.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.platemate.dto.request.PostUserDataRequest;
 
 import java.util.List;
 
@@ -18,14 +18,12 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class RestaurantController {
     private UserService userService;
+    private KakaoAPIService kakaoAPIService;
 
-    @GetMapping("/V1")
-    public GetRestaurantListResponse getRestaurantListV1(@RequestBody GetRestaurantListRequestV1 request) {
 
-    }
-
-    @GetMapping("/V2")
-    public GetRestaurantListResponse getRestaurantListV2(@RequestBody GetRestaurantListRequestV2 request) {
-        List<Long> locationData = userService.getTeamUserMidPlaceData(request.teamAuthCode());
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public String getRestListFromKakaoAPIToString(@RequestBody PostUserDataRequest request/* Long longti, Long lati*/){
+        return kakaoAPIService.getRestaurantList(request.longtitude(), request.latitude());
     }
 }
