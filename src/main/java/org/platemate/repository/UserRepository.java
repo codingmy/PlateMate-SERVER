@@ -45,14 +45,6 @@ public class UserRepository {
         return authCode;
     }
 
-    //인증코드로 매핑 가능한 유효 인증코드인지 확인
-    public Boolean getAuthCodeAvailable(Long authCode) {
-        Team mappingTeam = query.selectFrom(team)
-                .where(team.teamcode.eq(authCode).and(team.isMapped.eq(false)))
-                .fetchLast();
-        return mappingTeam.isMapped;
-    }
-
     //입력받은 유저 아이디를 db에 저장, 팀매핑 여부를 true로 수정
     public void updateTeamMapping(Long userId) {
         query.update(teamMapping)
