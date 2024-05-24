@@ -1,10 +1,7 @@
 package org.platemate.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
@@ -28,4 +25,9 @@ public class TeamMapping {
     @Column(name = "is_mapped")
     Boolean isMapped;
 
+    @Builder
+    public TeamMapping(Long userId, Boolean isMapped) {
+        this.user1_id = userId;
+        this.isMapped = isMapped;
+    }
 }
