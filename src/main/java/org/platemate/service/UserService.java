@@ -1,15 +1,19 @@
 package org.platemate.service;
 
+import jakarta.transaction.Transactional;
 import org.platemate.domain.TeamMapping;
 import org.platemate.domain.User;
 import org.platemate.dto.request.GetTeamMappingRequest;
 import org.platemate.dto.request.PostUserDataRequest;
 import org.platemate.dto.response.PostUserDataResponse;
 import org.platemate.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@Transactional
 public class UserService {
     private UserRepository userRepository;
 
