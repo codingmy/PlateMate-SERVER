@@ -34,7 +34,7 @@ public class UserRepository {
     }
 
     //team테이블에 팀 매핑 원하는 row로 추가
-    public Long postTeamData(Long userId) {
+    public Long creatTeamData(Long userId) {
         TeamMapping team = new TeamMapping(userId, false);
         em.persist(team);
         Long authCode = query.select(team.authCode)
