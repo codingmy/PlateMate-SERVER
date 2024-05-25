@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.platemate.dto.request.GetTeamMappingRequest;
 import org.platemate.dto.request.PostUserDataRequest;
+import org.platemate.dto.response.GetTeamMappingResponse;
 import org.platemate.dto.response.PostUserDataResponse;
 import org.platemate.exception.ErrorMessage;
 import org.platemate.exception.SuccessMessage;
