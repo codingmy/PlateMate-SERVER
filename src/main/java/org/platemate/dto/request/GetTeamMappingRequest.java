@@ -4,6 +4,6 @@ public record GetTeamMappingRequest(
         String nickname,
         Float latitude,
         Float longitude,
-        Long authCode
+        Long teamAuthCode
 ) {
 }

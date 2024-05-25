@@ -46,18 +46,18 @@ public class UserRepository {
     }
 
     //입력받은 유저 아이디를 db에 저장, 팀매핑 여부를 true로 수정
-    public void updateTeamMapping(Long userId) {
+    public void updateTeamMapping(Long teamAuthCode, Long userId) {
         query.update(teamMapping)
-                .where(teamMapping.authCode.eq(authCode))
+                .where(teamMapping.mapping_code.eq(teamAuthCode))
                 .set(teamMapping.isMapped, true)
                 .set(teamMapping.user2_id, userId)
                 .execute();
     }
 
     //팀인증코드로 팀 매핑 데이터 가져오기
-    public TeamMapping getTeamDataByTeamCode(Long authCode) {
+    public TeamMapping getTeamDataByTeamCode(Long teamAuthCode) {
         return query.selectFrom(teamMapping)
-                .where(teamMapping.authCode.eq(authCode))
+                .where(teamMapping.mapping_code.eq(teamAuthCode))
                 .fetchFirst();
     }
 

@@ -22,7 +22,7 @@ public class RestaurantController {
     @GetMapping("/V1")
     public GetKakaoAPIResponse getRestaurantListV1(@RequestBody GetRestaurantListRequestV1 request) {
         //바로 카카오 open api 사용해서 서버통신 해서 정보 받아오기
-        return this.getRestListFromKakaoAPI(request.longtitude(), request.latitude());
+        return this.getRestListFromKakaoAPI(request.longitude(), request.latitude());
     }
 
     @GetMapping("/V2")
