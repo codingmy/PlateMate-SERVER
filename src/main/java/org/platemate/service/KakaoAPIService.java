@@ -33,7 +33,7 @@ public class KakaoAPIService {
                 + "&category_group_code=" + "FD6"
                 + "&x=" + longti
                 + "&y=" + lati
-                + "&radius=" + "100";
+                + "&radius=" + "20000";
         System.out.println(apiURL);
         System.out.println(lati);
         final HttpEntity<String> entity = new HttpEntity<>(headers);
