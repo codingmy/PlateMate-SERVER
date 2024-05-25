@@ -38,19 +38,19 @@ public class UserRepository {
     }
     @Transactional
     public Long getUserIdByUserData(String nickname, Float latitude, Float longitude){
-        List<Long> userIdList = query.select(QUser.user.userId)
-                .from(QUser.user)
+        List<User> userList = query.selectFrom(QUser.user)
                 .where(QUser.user.nickname.eq(nickname)
                         /*.and(QUser.user.latitude.eq(latitude))
                         .and(QUser.user.longtitude.eq(longitude))*/)
                 .fetch();
-        System.out.println(userIdList.size());
-        Integer userIdCount = userIdList.size();
+        System.out.println("found user data row: "+ userList.size());
+        System.out.println("found user data row: "+ userList);
+        Integer userIdCount = userList.size();
         Integer index;
-        if (userIdCount == 1)
+        if (userIdCount < 1)
             index = userIdCount;
         else index = userIdCount - 1;
-        return userIdList.get(index);
+        return userList.get(index).getUserId();
     }
 
     //team테이블에 팀 매핑 원하는 row로 추가
@@ -66,9 +66,11 @@ public class UserRepository {
         Integer teamAuthCodeCount = teamAuthCodeList.size();
 
         Integer index;
-        if (teamAuthCodeCount == 1)
+        if (teamAuthCodeCount < 1)
             index = teamAuthCodeCount;
         else index = teamAuthCodeCount - 1;
+        System.out.println("found team row : "+teamAuthCodeList);
+
         return teamAuthCodeList.get(index);
 
 //        return teamAuthCode;
