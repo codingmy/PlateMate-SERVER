@@ -1,6 +1,7 @@
 package org.platemate.service;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.platemate.domain.TeamMapping;
 import org.platemate.domain.User;
 import org.platemate.dto.request.GetTeamMappingRequest;
@@ -14,21 +15,30 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class UserService {
     private UserRepository userRepository;
 
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
     //유저가 팀 인증번호 발급요청시 로직
     //팀 인증번호 담은 response 리턴
+    @Transactional
     public PostUserDataResponse postUserData(PostUserDataRequest request) {
-        Long userId = userRepository.postUserData(request.nickname(), request.latitude(), request.longitude());
+        userRepository.postUserData(request.nickname(), request.latitude(), request.longitude());
+        Long userId = userRepository.getUserIdByUserData(request.nickname(), request.latitude(), request.longitude());
         Long teamAuthCode = userRepository.creatTeamData(userId);
         return new PostUserDataResponse(teamAuthCode);
     }
 
     //인증번호로 팀매핑 진행
+    @Transactional
     public Boolean getTeamMapping(GetTeamMappingRequest request) {
         //db에 유저 정보 업로드
-        Long userId = userRepository.postUserData(request.nickname(), request.latitude(), request.longitude());
+        userRepository.postUserData(request.nickname(), request.latitude(), request.longitude());
+        Long userId = userRepository.getUserIdByUserData(request.nickname(), request.latitude(), request.longitude());
         TeamMapping teamMappingData = userRepository.getTeamDataByTeamCode(request.teamAuthCode());
 
         //인증코드가 유효할 때(조회 가능, 매핑전)
@@ -41,6 +51,7 @@ public class UserService {
             return false;
     }
 
+    @Transactional
     public List<Float> getTeamUserMidPlaceData(Long authCode) {
         //인증번호로 team에서 userId2개 가져오기
         TeamMapping teamData = userRepository.getTeamDataByTeamCode(authCode);

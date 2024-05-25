@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-@Table(name = "teamMapping")
+@Table(name = "team_mapping")
 public class TeamMapping {
     @Column(name = "user1_id")
     Long user1_id;
@@ -20,7 +20,7 @@ public class TeamMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mapping_code")
-    Long mapping_code;
+    Long mappingCode;
 
     @Column(name = "is_mapped")
     Boolean isMapped;

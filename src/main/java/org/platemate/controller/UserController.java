@@ -1,7 +1,5 @@
 package org.platemate.controller;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import org.platemate.dto.request.GetTeamMappingRequest;
 import org.platemate.dto.request.PostUserDataRequest;
 import org.platemate.dto.response.GetTeamMappingResponse;
@@ -14,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserController {
     private UserService userService;
+
+    public UserController( UserService userService){
+        this.userService = userService;
+    }
 
     //인증번호 요청 api
     @PostMapping

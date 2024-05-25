@@ -1,7 +1,8 @@
 package org.platemate.service;
 
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.platemate.dto.response.GetKakaoAPIResponse;
-import org.platemate.dto.response.GetRestListFromKakaoResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,14 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.util.List;
-
 @Service
+@Slf4j
+@Transactional
 public class KakaoAPIService {
 
     @Value("${kakao_id}")
@@ -24,6 +20,7 @@ public class KakaoAPIService {
     private String FORMAT = "JSON?";
     private String coordForm = "WGS84";
     private String categoryCode = "FD6";
+
     public GetKakaoAPIResponse getRestaurantList(Float longti, Float lati) {
 
         final HttpHeaders headers = new HttpHeaders();
@@ -43,7 +40,7 @@ public class KakaoAPIService {
 
 //        System.out.println(restTemplate.exchange(apiURL, HttpMethod.GET, entity,String.class).toString());
 
-        return restTemplate.exchange(apiURL, HttpMethod.GET, entity,GetKakaoAPIResponse.class).getBody();
+        return restTemplate.exchange(apiURL, HttpMethod.GET, entity, GetKakaoAPIResponse.class).getBody();
 
     }
 /*
