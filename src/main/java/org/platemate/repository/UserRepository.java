@@ -4,11 +4,15 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.platemate.domain.QUser;
 import org.platemate.domain.TeamMapping;
 import org.platemate.domain.User;
 import org.springframework.stereotype.Repository;
 
-import static com.querydsl.jpa.JPAExpressions.selectFrom;
+import java.util.List;
+
+import static org.platemate.domain.QTeamMapping.teamMapping;
+import static org.platemate.domain.QUser.user;
 
 @Slf4j
 @Repository
@@ -26,23 +30,29 @@ public class UserRepository {
     public Long postUserData(String nickname, Float latitude, Float longtitude) {
         User user = new User(nickname, latitude, longtitude);
         em.persist(user);
-        Long userId = query.select(user.userId)
-                .from(user)
-                .where(user.nickname.eq(nickname), user.latitude.eq(latitude), longtitude)
-                .fetchLast();
-        return userId;
+        List<Long> userIdList = query.select(QUser.user.userId)
+                .from(QUser.user)
+                .where(QUser.user.nickname.eq(nickname)
+                        .and(QUser.user.latitude.eq(latitude))
+                        .and(QUser.user.longtitude.eq(longtitude)))
+                        .fetch();
+        Integer userIdCount = userIdList.size();
+        return userIdList.get(userIdCount-1);
+        //return userId;
     }
 
     //team테이블에 팀 매핑 원하는 row로 추가
     public Long creatTeamData(Long userId) {
         TeamMapping team = new TeamMapping(userId, false);
         em.persist(team);
-        Long authCode = query.select(team.authCode)
-                .from(team)
-                .where(team.user1_id.eq(userId)
-                        .and(team.isMapped.eq(false)))
-                .fetchLast();
-        return authCode;
+        List<Long> teamAuthCodeList = query.select(teamMapping.mapping_code)
+                .from(teamMapping)
+                .where(teamMapping.user1_id.eq(userId)
+                        .and(teamMapping.isMapped.eq(false)))
+                .fetch();
+        Integer teamAuthCodeCount= teamAuthCodeList.size();
+        Long teamAuthCode = teamAuthCodeList.get(teamAuthCodeCount);
+        return teamAuthCode;
     }
 
     //입력받은 유저 아이디를 db에 저장, 팀매핑 여부를 true로 수정
