@@ -27,10 +27,11 @@ public class UserController {
     }
 
     //인증번호로 팀매핑 api
-    @GetMapping
-    public ApiResponse getTeamMapping(@RequestBody GetTeamMappingRequest request) {
-        if (userService.getTeamMapping(request))
-            return ApiResponse.success(SuccessMessage.CODE_SEARCH_SUCCESS);
-        else return ApiResponse.error(ErrorMessage.CODE_NOT_FOUND_EXCEPTION);
+    @GetMapping("/teamAuth")
+    public ApiResponse<GetTeamMappingResponse> getTeamMapping(@RequestBody GetTeamMappingRequest request) {
+        Boolean result = userService.getTeamMapping(request);
+        if (result)
+            return ApiResponse.success(SuccessMessage.CODE_SEARCH_SUCCESS, new GetTeamMappingResponse(result));
+        else return ApiResponse.error(ErrorMessage.CODE_NOT_FOUND_EXCEPTION, new GetTeamMappingResponse(result));
     }
 }
