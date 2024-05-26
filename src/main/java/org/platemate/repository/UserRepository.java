@@ -40,8 +40,8 @@ public class UserRepository {
     public Long getUserIdByUserData(String nickname, Float latitude, Float longitude){
         List<User> userList = query.selectFrom(QUser.user)
                 .where(QUser.user.nickname.eq(nickname)
-                        /*.and(QUser.user.latitude.eq(latitude))
-                        .and(QUser.user.longtitude.eq(longitude))*/)
+                        .and(QUser.user.latitude.eq(latitude))
+                        .and(QUser.user.longtitude.eq(longitude)))
                 .fetch();
         System.out.println("found user data row: "+ userList.size());
         System.out.println("found user data row: "+ userList);
