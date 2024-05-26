@@ -1,10 +1,7 @@
 package org.platemate.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
@@ -12,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-@Table(name = "teamMapping")
+@Table(name = "team_mapping")
 public class TeamMapping {
     @Column(name = "user1_id")
     Long user1_id;
@@ -23,9 +20,14 @@ public class TeamMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mapping_code")
-    Long mapping_code;
+    Long mappingCode;
 
     @Column(name = "is_mapped")
     Boolean isMapped;
 
+    @Builder
+    public TeamMapping(Long userId, Boolean isMapped) {
+        this.user1_id = userId;
+        this.isMapped = isMapped;
+    }
 }
