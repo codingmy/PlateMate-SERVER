@@ -4,12 +4,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.platemate.dto.request.GetRestaurantListRequestV1;
 import org.platemate.dto.request.GetRestaurantListRequestV2;
-import org.platemate.dto.request.PostUserDataRequest;
 import org.platemate.dto.response.GetKakaoAPIResponse;
 import org.platemate.service.KakaoAPIService;
 import org.platemate.service.UserService;
 import org.springframework.web.bind.annotation.*;
-import org.platemate.dto.request.PostUserDataRequest;
 
 import java.util.List;
 
@@ -34,12 +32,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
-    public String getRestListFromKakaoAPIToString(@RequestBody PostUserDataRequest request/* Long longti, Long lati*/){
-        return kakaoAPIService.getRestaurantList(request.longtitude(), request.latitude());
-    }*/
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    @ResponseBody
-    public GetKakaoAPIResponse getRestListFromKakaoAPIToString(@RequestBody PostUserDataRequest request ){
-        return kakaoAPIService.getRestaurantList(request.longtitude(), request.latitude());
+    public GetKakaoAPIResponse getRestListFromKakaoAPI(Float longi, Float lati) {
+        return kakaoAPIService.getRestaurantList(longi, lati);
     }
 }
